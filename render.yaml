@@ -25,6 +25,8 @@ services:
     autoDeploy: true
 
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
       # Injected at runtime — set these in the Render dashboard:
       - key: SECRET_KEY
         generateValue: true       # Render auto-generates a random value
