@@ -1,0 +1,42 @@
+# render.yaml — Render.com service definition for STO-server
+# Docs: https://render.com/docs/render-yaml-spec
+#
+# HOW TO DEPLOY:
+#   1. Push this repo to GitHub (https://github.com/supulkalhara/STO-server)
+#   2. Go to https://dashboard.render.com → New → Web Service → Connect GitHub repo
+#   3. Render auto-detects this file and uses the settings below.
+#   4. Add the following environment variables in the Render dashboard:
+#        SECRET_KEY        → any 32+ char random string
+#        MONGODB_URL       → your MongoDB Atlas connection string
+#        ALLOWED_ORIGINS   → https://supulkalhara.github.io
+
+services:
+  - type: web
+    name: sto-server
+    runtime: python
+    region: oregon          # free tier available
+    plan: free              # 512 MB RAM, sleeps after 15 min inactivity
+    rootDir: server
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+
+    # Auto-deploy on every push to main
+    autoDeploy: true
+
+    envVars:
+      # Injected at runtime — set these in the Render dashboard:
+      - key: SECRET_KEY
+        generateValue: true       # Render auto-generates a random value
+
+      - key: MONGODB_URL
+        sync: false               # You must paste your Atlas URI in the dashboard
+
+      - key: DATABASE_URL
+        value: sqlite:///./safetakeoff_prod.db   # swap for postgres:// in prod
+
+      - key: ALLOWED_ORIGINS
+        value: https://supulkalhara.github.io,http://localhost:5173
+
+      - key: MONGODB_DB
+        value: safetakeoff

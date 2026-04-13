@@ -18,7 +18,9 @@ from slowapi.middleware import SlowAPIMiddleware
 from slowapi.util import get_remote_address
 
 from database import init_db
+from mongodb import close_mongo
 from routers import auth, aircraft, weather, notam, flightplan, gonogo, ws
+from routers import signup as signup_router
 
 # ── Structured logging setup ─────────────────────────────────────────────────
 structlog.configure(
@@ -41,7 +43,7 @@ limiter = Limiter(key_func=get_remote_address, default_limits=["200/minute"])
 app = FastAPI(
     title="Safe TakeOff API",
     description="Aviation decision-support platform for ATCs — backend service",
-    version="0.2.0",
+    version="0.3.0",
     docs_url="/docs",
     redoc_url="/redoc",
 )
@@ -79,6 +81,7 @@ async def request_id_middleware(request: Request, call_next):
 
 # ── Routers ───────────────────────────────────────────────────────────────────
 app.include_router(auth.router)
+app.include_router(signup_router.router)
 app.include_router(aircraft.router)
 app.include_router(weather.router)
 app.include_router(notam.router)
@@ -86,17 +89,23 @@ app.include_router(flightplan.router)
 app.include_router(gonogo.router)
 app.include_router(ws.router)
 
-# ── Startup ───────────────────────────────────────────────────────────────────
+# ── Startup / Shutdown ────────────────────────────────────────────────────────
 @app.on_event("startup")
 def on_startup():
     log.info("Initialising database …")
     init_db()
-    log.info("Safe TakeOff API ready", version="0.2.0")
+    log.info("Safe TakeOff API ready", version="0.3.0")
+
+
+@app.on_event("shutdown")
+async def on_shutdown():
+    await close_mongo()
+    log.info("Safe TakeOff API shut down")
 
 # ── Health / readiness endpoints ──────────────────────────────────────────────
 @app.get("/health", tags=["System"])
 def health_check():
-    return {"status": "ok", "version": "0.2.0"}
+    return {"status": "ok", "version": "0.3.0"}
 
 
 @app.get("/ready", tags=["System"])
