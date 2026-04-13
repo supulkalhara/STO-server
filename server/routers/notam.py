@@ -84,7 +84,7 @@ async def get_notams(
     }
 
     try:
-        async with httpx.AsyncClient(timeout=8.0) as client:
+        async with httpx.AsyncClient(timeout=4.0) as client:
             resp = await client.post(FAA_NOTAM_URL, json=payload)
             resp.raise_for_status()
             data = resp.json()
