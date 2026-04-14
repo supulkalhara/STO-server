@@ -38,6 +38,7 @@ def init_db() -> None:
     from models.user import User  # noqa: import here to avoid circular
     from models.aircraft import Aircraft  # noqa
     from models.flightplan import FlightPlan  # noqa
+    from models.decision_history import DecisionHistory  # noqa
 
     Base.metadata.create_all(bind=engine)
 

@@ -21,3 +21,6 @@ motor==3.4.0
 pymongo==4.7.2
 dnspython==2.6.1
 pyopenssl>=23.2.0
+
+# Phase 3 additions (Agentic RAG + XGBoost enhancement)
+anthropic>=0.34.0
