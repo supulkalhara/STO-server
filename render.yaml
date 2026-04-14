@@ -8,7 +8,7 @@
 #   4. Add the following environment variables in the Render dashboard:
 #        SECRET_KEY        → any 32+ char random string
 #        MONGODB_URL       → your MongoDB Atlas connection string
-#        ALLOWED_ORIGINS   → https://supulkalhara.github.io
+#        ALLOWED_ORIGINS   → https://supulkalhara.github.io,https://{netlify-site}.netlify.app,http://localhost:5173
 
 services:
   - type: web

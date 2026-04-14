@@ -26,8 +26,8 @@ class DecisionHistory(Base):
 
     # ── Primary key & foreign keys ───────────────────────────────────────────
     id = Column(String(36), primary_key=True, default=lambda: str(uuid4()))
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
-    flight_plan_id = Column(Integer, ForeignKey("flight_plan.id"), nullable=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=True)
+    flight_plan_id = Column(Integer, ForeignKey("flight_plans.id"), nullable=True)
 
     # ── Request snapshot (reproducibility) ────────────────────────────────────
     icao = Column(String(4), nullable=False)  # departure aerodrome
