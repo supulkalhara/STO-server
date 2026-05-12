@@ -29,7 +29,7 @@ Safe TakeOff is a dual-model Go / No-Go decision support system for Air Traffic 
 | ORM / SQL | SQLAlchemy 2.0 + SQLite |
 | NoSQL | MongoDB Atlas (Motor async driver) |
 | ML model | XGBoost 2.0 + scikit-learn 1.5 |
-| AI agent | Anthropic Claude claude-3-5-sonnet-20241022 |
+| AI agent | Anthropic Claude claude-3-5-sonnett-20241022 |
 | Auth | JWT (python-jose) + bcrypt (passlib) |
 | Rate limiting | slowapi |
 | Logging | structlog (JSON) |
